@@ -135,7 +135,7 @@ class Admin::CampaignsController < ApplicationController
       end
       @settings.save
 
-      redirect_to campaign_home_url(@campaign), :flash => { :success => "Campaign created!" }
+      redirect_to campaign_home_url(@campaign, :sr => current_user.sr), :flash => { :success => "Campaign created!" }
       return
     end
   end

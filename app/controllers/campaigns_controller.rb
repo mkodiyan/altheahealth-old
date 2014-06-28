@@ -72,6 +72,7 @@ class CampaignsController < ApplicationController
 
     ct_user_id = params[:ct_user_id]
     ct_card_id = params[:ct_card_id]
+    sr = params[:sr]
 
     #calculate amount and fee in cents
     fee = calculate_processing_fee(payment_params[:amount])
@@ -85,7 +86,7 @@ class CampaignsController < ApplicationController
         else
           flash = { warning: "Please enter a higher amount to redeem this reward!" }
         end
-        redirect_to checkout_amount_url(@campaign), flash: flash and return
+        redirect_to checkout_amount_url(@campaign, :sr => params[:sr]), flash: flash and return
       end
     end
 
@@ -117,9 +118,9 @@ class CampaignsController < ApplicationController
         flash_msg = { error: "There was an error processing your payment. Please try again or contact support by emailing open@crowdtilt.com." }
       else
         # A status other than nil or 'error' indicates success! Treat as original payment
-        redirect_to checkout_confirmation_url(@campaign), :status => 303, :flash => { payment_guid: @payment.ct_payment_id } and return
+        redirect_to checkout_confirmation_url(@campaign, :sr => params[:sr]), :status => 303, :flash => { payment_guid: @payment.ct_payment_id } and return
       end
-      redirect_to checkout_amount_url(@campaign), flash: flash_msg and return
+      redirect_to checkout_amount_url(@campaign, :sr => params[:sr]), flash: flash_msg and return
     end
 
     @payment.reward = @reward if @reward
@@ -156,11 +157,11 @@ class CampaignsController < ApplicationController
       error_attributes[:ct_charge_request_id] = response[:body]['request_id'] if response[:body]['request_id']
       error_attributes[:ct_charge_request_error_id] = response[:body]['error_id'] if response[:body]['error_id']
       @payment.update_attributes(error_attributes)
-      redirect_to checkout_amount_url(@campaign), flash: { error: "There was an error processing your payment. Please try again or contact support by emailing open@crowdtilt.com" } and return
+      redirect_to checkout_amount_url(@campaign, :sr => params[:sr]), flash: { error: "There was an error processing your payment. Please try again or contact support by emailing open@crowdtilt.com" } and return
     rescue StandardError => exception
       @payment.update_attributes({status: 'error'})
       logger.error "ERROR WITH POST TO /payments: #{exception.message}"
-      redirect_to checkout_amount_url(@campaign), flash: { error: "There was an error processing your payment. Please try again or contact support by emailing open@crowdtilt.com" } and return
+      redirect_to checkout_amount_url(@campaign, :sr => params[:sr]), flash: { error: "There was an error processing your payment. Please try again or contact support by emailing open@crowdtilt.com" } and return
     end
 
     # Sync payment data
@@ -179,7 +180,7 @@ class CampaignsController < ApplicationController
     AdminMailer.payment_notification(@payment.id).deliver rescue 
       logger.info "ERROR WITH ADMIN NOTIFICATION EMAIL: #{$!.message}"
 
-    redirect_to checkout_confirmation_url(@campaign), :status => 303, :flash => { payment_guid: @payment.ct_payment_id }
+    redirect_to checkout_confirmation_url(@campaign, :sr => params[:sr]), :status => 303, :flash => { payment_guid: @payment.ct_payment_id }
 
   end
 

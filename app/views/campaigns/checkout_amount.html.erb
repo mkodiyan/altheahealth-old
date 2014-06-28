@@ -4,7 +4,7 @@
       <h3><a href="<%= campaign_home_path(@campaign) %>"><%= @campaign.name %></a></h3>
 
       <div class="well checkout_block">
-        <form accept-charset="UTF-8" action="<%= checkout_payment_path(@campaign) %>" method="GET" id="amount_form">
+        <form accept-charset="UTF-8" action="<%= checkout_payment_path(@campaign, :sr => params[:sr]) %>" method="GET" id="amount_form">
 
           <% if @campaign.payment_type == 'fixed' %>
 
@@ -46,6 +46,7 @@
             <input id="quantity" type="hidden" name="quantity" value="1"/>
 
           <% end %>
+          <input id="sr" type="hidden" name="sr" value="<%= params[:sr]%>"/>
 
           <% if @campaign.rewards? %>
             <div id="reward_select" data-reference="<%= @campaign.reward_reference %>">

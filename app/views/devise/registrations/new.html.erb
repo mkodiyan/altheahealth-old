@@ -18,7 +18,7 @@
 
       <div><%= f.label :email %>
       <%= f.email_field :email %></div>
-
+      <%= f.hidden_field :sr, :value => unique_sr %>
       <div><%= f.label :password %>
       <%= f.password_field :password %></div>
 

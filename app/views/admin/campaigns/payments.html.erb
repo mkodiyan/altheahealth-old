@@ -46,6 +46,7 @@
             <% if @campaign.goal_type == 'orders' %>
             <th>Quantity</th>
             <% end %>
+            <th>Sponsor Reference</th>
             <th>Amount</th>
             <th>User Fee</th>
             <th>Date</th>
@@ -62,6 +63,7 @@
             <% if @campaign.goal_type == 'orders' %>
             <td><%= payment.quantity %></td>
             <% end %>
+            <td class="sponsor_reference"><%= payment.sponsor_reference %></td>
             <td class="amount"><%= short_price(payment.amount.to_f/100.0, '$', 2) %></td>
             <td class="user_fee_amount"><%= short_price(payment.user_fee_amount.to_f/100.0, '$', 2) %></td>
             <td><%= payment.created_at.strftime("%m/%d/%Y") %></td>
