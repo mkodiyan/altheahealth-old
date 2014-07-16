@@ -5,6 +5,7 @@ class Payment < ActiveRecord::Base
                   :additional_info, :client_timestamp,
                   :ct_charge_request_id, :ct_charge_request_error_id,
                   :ct_tokenize_request_id, :ct_tokenize_request_error_id,
+                  #next 1 lines are for sponsor reference
                   :ct_user_id, :sponsor_reference
 
   validates :fullname, :quantity, presence: true

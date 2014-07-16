@@ -20,6 +20,7 @@ module CheckoutMixin
         email: params[:email],
         billing_postal_code: params[:billing_postal_code],
         quantity: params[:quantity].to_i,
+        #next 1 lines are for sponsor reference
         sponsor_reference: params[:sr],
 
         #Shipping Info

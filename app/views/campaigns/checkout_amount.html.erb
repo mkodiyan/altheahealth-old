@@ -4,6 +4,7 @@
       <h3><a href="<%= campaign_home_path(@campaign) %>"><%= @campaign.name %></a></h3>
 
       <div class="well checkout_block">
+       <!-- #next 1 lines are for sponsor reference -->
         <form accept-charset="UTF-8" action="<%= checkout_payment_path(@campaign, :sr => params[:sr]) %>" method="GET" id="amount_form">
 
           <% if @campaign.payment_type == 'fixed' %>

@@ -76,6 +76,7 @@
   <div class="spacer" style="height:30px; width: 100%"></div>
 </div>
 <% end %>
+<!-- #next 6 lines are for sponsor reference -->
 <% if user_signed_in? && !current_user.admin?  %>
 <div><%= link_to "Sign Out", destroy_user_session_path, method: "delete" %></div>
 <% end %>

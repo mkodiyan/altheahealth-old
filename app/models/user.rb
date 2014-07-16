@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
+  #next 1 lines are for sponsor reference
   attr_accessible :email, :password, :password_confirmation, :remember_me, :fullname, :sr, :admin,
     :wants_admin_payment_notification
 

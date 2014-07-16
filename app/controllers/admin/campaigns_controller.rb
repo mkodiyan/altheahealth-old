@@ -134,7 +134,7 @@ class Admin::CampaignsController < ApplicationController
         @settings.default_campaign_id = nil
       end
       @settings.save
-
+      #next 1 line are for sponsor reference
       redirect_to campaign_home_url(@campaign, :sr => current_user.sr), :flash => { :success => "Campaign created!" }
       return
     end

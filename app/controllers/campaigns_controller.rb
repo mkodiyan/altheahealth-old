@@ -72,6 +72,7 @@ class CampaignsController < ApplicationController
 
     ct_user_id = params[:ct_user_id]
     ct_card_id = params[:ct_card_id]
+    #next 1 line are for sponsor reference
     sr = params[:sr]
 
     #calculate amount and fee in cents
@@ -86,6 +87,7 @@ class CampaignsController < ApplicationController
         else
           flash = { warning: "Please enter a higher amount to redeem this reward!" }
         end
+  #next 1 line are for sponsor reference
         redirect_to checkout_amount_url(@campaign, :sr => params[:sr]), flash: flash and return
       end
     end
@@ -118,8 +120,10 @@ class CampaignsController < ApplicationController
         flash_msg = { error: "There was an error processing your payment. Please try again or contact support by emailing open@crowdtilt.com." }
       else
         # A status other than nil or 'error' indicates success! Treat as original payment
+        #next 1 line are for sponsor reference
         redirect_to checkout_confirmation_url(@campaign, :sr => params[:sr]), :status => 303, :flash => { payment_guid: @payment.ct_payment_id } and return
       end
+      #next 1 line are for sponsor reference
       redirect_to checkout_amount_url(@campaign, :sr => params[:sr]), flash: flash_msg and return
     end
 
@@ -157,10 +161,12 @@ class CampaignsController < ApplicationController
       error_attributes[:ct_charge_request_id] = response[:body]['request_id'] if response[:body]['request_id']
       error_attributes[:ct_charge_request_error_id] = response[:body]['error_id'] if response[:body]['error_id']
       @payment.update_attributes(error_attributes)
+      #next 1 line are for sponsor reference
       redirect_to checkout_amount_url(@campaign, :sr => params[:sr]), flash: { error: "There was an error processing your payment. Please try again or contact support by emailing open@crowdtilt.com" } and return
     rescue StandardError => exception
       @payment.update_attributes({status: 'error'})
       logger.error "ERROR WITH POST TO /payments: #{exception.message}"
+      #next 1 line are for sponsor reference
       redirect_to checkout_amount_url(@campaign, :sr => params[:sr]), flash: { error: "There was an error processing your payment. Please try again or contact support by emailing open@crowdtilt.com" } and return
     end
 
@@ -179,7 +185,7 @@ class CampaignsController < ApplicationController
 
     AdminMailer.payment_notification(@payment.id).deliver rescue 
       logger.info "ERROR WITH ADMIN NOTIFICATION EMAIL: #{$!.message}"
-
+    #next 1 line are for sponsor reference
     redirect_to checkout_confirmation_url(@campaign, :sr => params[:sr]), :status => 303, :flash => { payment_guid: @payment.ct_payment_id }
 
   end

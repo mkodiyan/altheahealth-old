@@ -41,6 +41,7 @@ module Crowdhoster
     config.assets.initialize_on_precompile = false
 
     #Paperclip default options
+    #next 11 lines are for sponsor reference
      config.paperclip_defaults = {
        storage: :s3,
        s3_credentials: {

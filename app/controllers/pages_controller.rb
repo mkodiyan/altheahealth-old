@@ -3,6 +3,7 @@ class PagesController < ApplicationController
 
   def index
     if @settings.default_campaign && ((user_signed_in? && current_user.admin?) || @settings.default_campaign.published_flag)
+    #next 6 lines are for sponsor reference  
   	if current_user.present?
         redirect_to campaign_home_url(@settings.default_campaign, :sr=>current_user.sr)
       else
